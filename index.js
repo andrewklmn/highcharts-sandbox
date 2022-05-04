@@ -142,6 +142,17 @@ window.onload = function () {
           animation: false,
         },
       },
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        headerFormat:
+          '<table><tr><td colspan="2" style="text-align:center;">Current value</td></tr>',
+        pointFormat:
+          '<tr><td style="color: {series.color}">{series.name} </td>' +
+          '<td style="text-align: right"><b>{point.y}°C</b></td></tr>',
+        footerFormat: "</table>",
+        valueDecimals: 2,
+      },
       series: [
         {
           data: [tempValue],
@@ -151,15 +162,6 @@ window.onload = function () {
           name: "Temp",
           zoneAxis: "y",
           zones: tempColorZones,
-          plotOptions: {
-            column: {
-              states: {
-                hover: {
-                  enabled: false,
-                },
-              },
-            },
-          },
         },
       ],
       legend: {
@@ -202,7 +204,10 @@ window.onload = function () {
         startOnTick: true,
       },
       title: {
-        text: "Temp, C",
+        text: `Temp: ${tempValue}°C`,
+        align: "center",
+        x: 10,
+        y: 25,
       },
     },
     function (chart) {
