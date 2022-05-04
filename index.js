@@ -17,7 +17,7 @@ const bulbColorZones = [
   },
 ];
 
-const tempValue = 22;
+const tempValue = 26;
 const tempColorZones = [
   {
     value: 23,
@@ -77,6 +77,9 @@ window.onload = function () {
       legend: {
         enabled: false,
       },
+      credits: {
+        enabled: false,
+      },
       xAxis: {
         labels: {
           enabled: false,
@@ -95,7 +98,7 @@ window.onload = function () {
         tickWidth: 1,
       },
       title: {
-        text: "",
+        text: "QDA count",
       },
     },
     function (chart) {
@@ -131,7 +134,13 @@ window.onload = function () {
     "container2",
     {
       chart: {
-        marginBottom: 50,
+        marginBottom: 40,
+      },
+      plotOptions: {
+        series: {
+          stacking: "normal",
+          animation: false,
+        },
       },
       series: [
         {
@@ -139,12 +148,24 @@ window.onload = function () {
           type: "column",
           pointWidth: 20,
           borderWidth: 0,
-          name: "Left",
+          name: "Temp",
           zoneAxis: "y",
           zones: tempColorZones,
+          plotOptions: {
+            column: {
+              states: {
+                hover: {
+                  enabled: false,
+                },
+              },
+            },
+          },
         },
       ],
       legend: {
+        enabled: false,
+      },
+      credits: {
         enabled: false,
       },
       xAxis: {
@@ -158,14 +179,30 @@ window.onload = function () {
         type: "linear",
         min: 20,
         max: 40,
-        title: {
-          text: "",
-        },
-        gridLineWidth: 2,
-        tickWidth: 1,
+        minPadding: 0,
+        maxPadding: 0,
+        startOnTick: true,
+        endOnTick: true,
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        title: null,
+        tickInterval: 5,
+        tickWidth: 2,
+        tickLength: 12,
+        tickColor: "#999",
+        tickPosition: "inside",
+        minorTicks: true,
+        minorTickColor: "#999",
+        minorTickWidth: 1,
+        minorTickLength: 12,
+        minorTickInterval: 1,
+        minorTickPosition: "inside",
+        gridLineWidth: 0,
+        offset: -5,
+        startOnTick: true,
       },
       title: {
-        text: "",
+        text: "Temp, C",
       },
     },
     function (chart) {
@@ -175,11 +212,18 @@ window.onload = function () {
       chart.renderer
         .circle(
           chart.plotLeft + point.shapeArgs.x + point.shapeArgs.width / 2,
-          chart.plotTop + series.yAxis.len + radius,
+          chart.plotTop + series.yAxis.len + radius - 3,
           20
         )
         .attr({
           fill: getCurrentColor(tempValue, tempColorZones),
+        })
+        .add();
+      chart.renderer
+        .rect(chart.plotLeft + 22, chart.plotTop, radius, series.yAxis.len)
+        .attr({
+          fill: "lightgray",
+          zIndex: 0,
         })
         .add();
     }
