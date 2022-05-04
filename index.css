@@ -1,0 +1,15 @@
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 150px;
+  height: 300px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
