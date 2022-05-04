@@ -1,5 +1,48 @@
 const bulbValue = 250;
-const tempValue = 35;
+const bulbColorZones = [
+  {
+    value: 10,
+    color: "red",
+  },
+  {
+    value: 50,
+    color: "#fcb103",
+  },
+  {
+    value: 100,
+    color: "green",
+  },
+  {
+    color: "green",
+  },
+];
+
+const tempValue = 22;
+const tempColorZones = [
+  {
+    value: 23,
+    color: "red",
+  },
+  {
+    value: 27,
+    color: "#fcb103",
+  },
+  {
+    value: 33,
+    color: "green",
+  },
+  {
+    value: 35,
+    color: "#fcb103",
+  },
+  {
+    value: 37,
+    color: "red",
+  },
+  {
+    color: "red",
+  },
+];
 
 const getCurrentColor = (value, colorZones) => {
   let color = colorZones[colorZones.length - 1].color;
@@ -13,24 +56,6 @@ const getCurrentColor = (value, colorZones) => {
 };
 
 window.onload = function () {
-  const colorZones = [
-    {
-      value: 10,
-      color: "red",
-    },
-    {
-      value: 50,
-      color: "#fcb103",
-    },
-    {
-      value: 100,
-      color: "green",
-    },
-    {
-      color: "green",
-    },
-  ];
-
   // BULB example
   Highcharts.chart(
     "container",
@@ -46,7 +71,7 @@ window.onload = function () {
           borderWidth: 0,
           name: "Left",
           zoneAxis: "y",
-          zones: colorZones,
+          zones: bulbColorZones,
         },
       ],
       legend: {
@@ -84,7 +109,7 @@ window.onload = function () {
           20
         )
         .attr({
-          fill: getCurrentColor(bulbValue, colorZones),
+          fill: getCurrentColor(bulbValue, bulbColorZones),
         })
         .add();
       chart.renderer
@@ -95,7 +120,7 @@ window.onload = function () {
           radius
         )
         .attr({
-          fill: getCurrentColor(bulbValue, colorZones),
+          fill: getCurrentColor(bulbValue, bulbColorZones),
         })
         .add();
     }
@@ -116,7 +141,7 @@ window.onload = function () {
           borderWidth: 0,
           name: "Left",
           zoneAxis: "y",
-          zones: colorZones,
+          zones: tempColorZones,
         },
       ],
       legend: {
@@ -154,7 +179,7 @@ window.onload = function () {
           20
         )
         .attr({
-          fill: getCurrentColor(tempValue, colorZones),
+          fill: getCurrentColor(tempValue, tempColorZones),
         })
         .add();
     }

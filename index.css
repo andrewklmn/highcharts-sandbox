@@ -4,12 +4,13 @@
 }
 
 .container {
-  width: 150px;
-  height: 300px;
+  width: 110px;
+  height: 350px;
 }
 
 .flex {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
