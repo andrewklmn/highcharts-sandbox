@@ -27,6 +27,34 @@ window.onload = function () {
     ],
   });
 
+  buildScaledBar({
+    highcharts: Highcharts,
+    target: "container3",
+    type: "logarithmic",
+    min: 2000,
+    max: 30000,
+    value: 3000,
+    label: "Steps",
+    tooltipTitle: "Steps",
+    colorZones: [
+      {
+        value: 3500,
+        color: "red",
+      },
+      {
+        value: 5000,
+        color: "#fcb103",
+      },
+      {
+        value: 20000,
+        color: "green",
+      },
+      {
+        color: "#fcb103",
+      },
+    ],
+  });
+
   buildThermometer({
     highcharts: Highcharts,
     target: "container2",
