@@ -20,6 +20,11 @@ function buildBulb({
         width: 110,
         height: 300,
       },
+      plotOptions: {
+        series: {
+          animation: false,
+        },
+      },
       tooltip: {
         shared: true,
         useHTML: true,

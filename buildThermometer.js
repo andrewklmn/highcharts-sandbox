@@ -34,7 +34,6 @@ function buildThermometer({
       },
       plotOptions: {
         series: {
-          stacking: "normal",
           animation: false,
         },
       },
@@ -76,6 +75,9 @@ function buildThermometer({
       },
       yAxis: {
         type: "linear",
+        labels: {
+          x: -5,
+        },
         min,
         max,
         minPadding: 0,
@@ -97,15 +99,19 @@ function buildThermometer({
         minorTickInterval: 1,
         minorTickPosition: "inside",
         gridLineWidth: 0,
-        offset: -5,
+        offset: -10,
         startOnTick: true,
         ...yAxis,
       },
       title: {
         text: label,
         align: "center",
-        x: 5,
+        x: 0,
         y: 20,
+        color: getCurrentColor(value, colorZones),
+        css: {
+          "text-anchor": "middle",
+        },
       },
     },
     function (chart) {
@@ -124,7 +130,7 @@ function buildThermometer({
         .add();
 
       chart.renderer
-        .rect(chart.plotLeft + 22, chart.plotTop, radius, series.yAxis.len)
+        .rect(chart.plotLeft + 27, chart.plotTop, radius, series.yAxis.len)
         .attr({
           fill: getCurrentColor(value, colorZones),
           zIndex: 0,
@@ -135,7 +141,7 @@ function buildThermometer({
       chart.renderer
         .text(
           String(value) + "°C",
-          chart.plotLeft + 33,
+          chart.plotLeft + 38,
           chart.plotTop + series.yAxis.len + radius * 2 + 15
         )
         .css({
