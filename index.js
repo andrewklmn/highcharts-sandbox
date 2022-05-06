@@ -129,12 +129,50 @@ window.onload = function () {
     }
   );
 
-  // TEMP example
-  Highcharts.chart(
-    "container2",
+  buildThermometer({
+    highcharts: Highcharts,
+    target: "container2",
+    min: 10,
+    max: 40,
+    value: tempValue,
+    label: "Air",
+    tooltipTitle: "Current Temp",
+    colorZones: tempColorZones,
+  });
+};
+
+function buildThermometer({
+  highcharts,
+  target,
+  min,
+  max,
+  value,
+  label,
+  tooltipTitle,
+  colorZones,
+}) {
+  if (!highcharts) {
+    const container = document.getElementById(target);
+    container.innerHTML = "Please provide Highcharts library";
+    return;
+  }
+
+  const getCurrentColor = (value, colorZones) => {
+    let color = colorZones[colorZones.length - 1].color;
+
+    for (let i = 0; i < colorZones.length - 1; i++) {
+      if (colorZones[i].value > value) {
+        return colorZones[i].color;
+      }
+    }
+    return color;
+  };
+
+  highcharts.chart(
+    target,
     {
       chart: {
-        marginBottom: 40,
+        marginBottom: 60,
       },
       plotOptions: {
         series: {
@@ -145,8 +183,9 @@ window.onload = function () {
       tooltip: {
         shared: true,
         useHTML: true,
-        headerFormat:
-          '<table><tr><td colspan="2" style="text-align:center;">Current value</td></tr>',
+        headerFormat: `<table><tr><td colspan="2" style="text-align:center;">${
+          tooltipTitle ?? ""
+        }</td></tr>`,
         pointFormat:
           '<tr><td style="color: {series.color}">{series.name} </td>' +
           '<td style="text-align: right"><b>{point.y}°C</b></td></tr>',
@@ -155,13 +194,13 @@ window.onload = function () {
       },
       series: [
         {
-          data: [tempValue],
+          data: [value],
           type: "column",
           pointWidth: 20,
           borderWidth: 0,
-          name: "Temp",
+          name: label,
           zoneAxis: "y",
-          zones: tempColorZones,
+          zones: colorZones,
         },
       ],
       legend: {
@@ -179,8 +218,8 @@ window.onload = function () {
       },
       yAxis: {
         type: "linear",
-        min: 20,
-        max: 40,
+        min,
+        max,
         minPadding: 0,
         maxPadding: 0,
         startOnTick: true,
@@ -188,7 +227,7 @@ window.onload = function () {
         lineWidth: 0,
         minorGridLineWidth: 0,
         title: null,
-        tickInterval: 5,
+        tickInterval: 2,
         tickWidth: 2,
         tickLength: 12,
         tickColor: "#999",
@@ -196,7 +235,7 @@ window.onload = function () {
         minorTicks: true,
         minorTickColor: "#999",
         minorTickWidth: 1,
-        minorTickLength: 12,
+        minorTickLength: 8,
         minorTickInterval: 1,
         minorTickPosition: "inside",
         gridLineWidth: 0,
@@ -204,10 +243,10 @@ window.onload = function () {
         startOnTick: true,
       },
       title: {
-        text: `Temp: ${tempValue}°C`,
+        text: label,
         align: "center",
-        x: 10,
-        y: 25,
+        x: 5,
+        y: 20,
       },
     },
     function (chart) {
@@ -221,9 +260,10 @@ window.onload = function () {
           20
         )
         .attr({
-          fill: getCurrentColor(tempValue, tempColorZones),
+          fill: getCurrentColor(value, colorZones),
         })
         .add();
+
       chart.renderer
         .rect(chart.plotLeft + 22, chart.plotTop, radius, series.yAxis.len)
         .attr({
@@ -231,6 +271,22 @@ window.onload = function () {
           zIndex: 0,
         })
         .add();
+
+      chart.renderer
+        .text(
+          String(value) + "°C",
+          chart.plotLeft + 5,
+          chart.plotTop + series.yAxis.len + radius * 2 + 15
+        )
+        .css({
+          "font-size": "16px",
+          "font-weight": "bold",
+        })
+        .attr({
+          fill: getCurrentColor(value, colorZones),
+          zIndex: 2,
+        })
+        .add();
     }
   );
-};
+}
